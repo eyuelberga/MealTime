@@ -1,0 +1,8 @@
+export const MEAL_TYPES = {
+    BREAKFAST: "BREAKFAST",
+    BRUNCH: "BRUNCH",
+    LUNCH: "LUNCH",
+    SUPPER: "SUPPER",
+    DINNER: "DINNER",
+    OTHER: "OTHER"
+};
