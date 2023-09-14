@@ -1,0 +1,103 @@
+version: '3.9'
+
+services:
+
+  mysqldb:
+    image: mysql:8.0
+    restart: unless-stopped
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_DATABASE: mealtime
+      MYSQL_USER: mealtime_user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+      - ./sql:/docker-entrypoint-initdb.d
+  web:
+    build:
+      context: ./web
+      target: dev
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    volumes:
+      - ./web:/app
+      - /app/node_modules
+      - /app/.next
+    command: yarn dev
+    environment:
+      NODE_ENV: development
+      AUTH_CLIENT_ID: mealtime-web
+      AUTH_CLIENT_SECRET: p4d63X6BgSAYDte94oLEPfCphmOB2XNC
+      AUTH_ISSUER: http://localhost:8080/realms/mealtime
+      NEXT_PUBLIC_API_URL: http://localhost:8081/api/
+      NEXTAUTH_URL: http://localhost:3000/
+      NEXTAUTH_SECRET: my-secret-goes-here-abc-123
+    depends_on:
+      - auth
+      - api
+    network_mode: host
+
+  auth:
+    image: quay.io/keycloak/keycloak:22.0.3
+    ports:
+      - 8080:8080
+    restart: unless-stopped
+    command: start-dev --import-realm
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: password
+      KC_DB: mysql
+      KC_DB_URL_HOST: mysqldb
+      KC_DB_URL_DATABASE: keycloak
+      KC_DB_URL_PORT: 3306
+      KC_DB_USERNAME: keycloak_user
+      KC_DB_PASSWORD: password
+
+    volumes:
+      - ./auth/keycloak/theme/build:/opt/keycloak/themes
+      - ./auth/keycloak/import:/opt/keycloak/data/import
+    depends_on:
+      - mysqldb
+  
+  start_dependencies:
+    image: dadarek/wait-for-dependencies
+    depends_on:
+      - mysqldb
+    command: mysqldb:3306
+  
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./api:/app
+      - ./api/.m2:/root/.m2
+    working_dir: /app
+    environment:
+      DATASOURCE_URL: jdbc:mysql://localhost:3307/mealtime?useSSL=false&allowPublicKeyRetrieval=true
+      RECIPE_IMPORTER_SERVICE_ENDPOINT: http://localhost:8082/import
+      DATASOURCE_USERNAME: root
+      DATASOURCE_PASSWORD: password
+      CORS_ALLOWED_ORIGINS: http://localhost:3000
+      AUTH_ISSUER_URI: http://localhost:8080/realms/mealtime
+    command: sh ./run.sh
+    ports:
+      - 8081:8081
+      - 35729:35729
+      - 5005:5005
+    depends_on:
+      - mysqldb
+      - auth
+    network_mode: host
+
+  recipe-importer:
+    build:
+      context: ./services/recipe-importer
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./services/recipe-importer:/app
+    ports:
+      - 8082:80
