@@ -8,7 +8,7 @@ import java.util.Date;
 @Data
 public class MealPlanResponse {
     private String id;
-    private Date date;
+    private String date;
     private MealType mealType;
     private Date createdAt;
     private Date updatedAt;

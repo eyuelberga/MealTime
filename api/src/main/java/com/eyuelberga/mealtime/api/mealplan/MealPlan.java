@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.sql.Date;
+import java.util.Date;
 
 @Entity
 @Table(name = "meal_plans")
@@ -22,6 +22,7 @@ public class MealPlan extends Auditable<String> {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
