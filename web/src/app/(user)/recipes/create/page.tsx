@@ -1,19 +1,19 @@
 // @ts-nocheck
 "use client"
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Card, CardBody } from "@/components/card";
-import { Button, Callout, Flex, Box } from "@radix-ui/themes";
+import { Button, Flex } from "@radix-ui/themes";
 import { Section, SectionHeader, LabelledInput, LabelledTextarea, LabelledInputContainer } from "@/components/sectioned-form";
 import schema from "@/schema/recipe";
-import { dataURLtoFile, getFormErrorMessage } from "@/helpers";
-import { RecipeDto, create, RecipeImportResponse, importFromUrl } from "@/api/recipes";
-import { LinkIcon, PlusCircleIcon } from "@/components/icons";
+import { getFormErrorMessage } from "@/helpers";
+import { RecipeDto, create } from "@/api/recipes";
+import { PlusCircleIcon } from "@/components/icons";
 import { useAsync } from "@/hooks/useAsync";
 import { useSearchParams } from "next/navigation";
 import useAxios from "@/hooks/useAxios";
-import RecipeImporter from "./RecipeImporter";
+import RecipeImporterDialog from "./RecipeImporterDialog";
 import Image from "next/image";
 
 export default function Create() {
@@ -62,25 +62,10 @@ export default function Create() {
                     <SectionHeader isTitle>
                         <div class="flex flex-wrap gap-2 items-center justify-between">
                             Create Recipe {addToCollection ? `on ${collectionName}` : ""}
+                            <RecipeImporterDialog onComplete={reset} onError={onError} />
                         </div>
                     </SectionHeader>
 
-                    <SectionHeader>
-                        <Flex direction="column" gap="3">
-                            <Callout.Root color="blue" size="1">
-                                <Callout.Icon>
-                                    <LinkIcon />
-                                </Callout.Icon>
-                                <Callout.Text>
-                                    You can import recipe from other sites by pasting in the url link
-                                </Callout.Text>
-                            </Callout.Root>
-                            <RecipeImporter reset={reset} onError={onError} />
-                        </Flex>
-                    </SectionHeader>
-                </Section>
-                <Section>
-                    <SectionHeader>Recipe Details</SectionHeader>
                     <LabelledInput label="Recipe Name"  {...register("name")} errorText={getFormErrorMessage(errors.name) || getFormErrorMessage(errors.collection)} />
                     {collectionId && <input defaultValue={collectionId} type="text" hidden {...register("collection")} />}
                     <LabelledTextarea label="Description" placeholder="Write a short description about the recipe" {...register("description")} errorText={getFormErrorMessage(errors.description)} />
