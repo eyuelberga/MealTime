@@ -30,7 +30,7 @@ export default function RecipeActions({ data }: RecipeActionsProps) {
 
         <DropdownMenu.Root>
             <DropdownMenu.Trigger>
-                <IconButton value="options" variant="outline" size="3">
+                <IconButton value="options" variant="soft" size="3">
                     <EllipsisVerticalIcon />
                 </IconButton>
             </DropdownMenu.Trigger>

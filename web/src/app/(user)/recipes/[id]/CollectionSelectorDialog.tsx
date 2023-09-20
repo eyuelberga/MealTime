@@ -1,6 +1,5 @@
 "use client"
 import React, { useState, useEffect, useCallback } from "react";
-import { Card, CardBody, CardHeader } from "@/components/card";
 import { CollectionIcon, SearchIcon, CloseIcon, PlusIcon } from "@/components/icons";
 import { addToCollection } from "@/api/recipes";
 import { CollectionResponse, getAll as getAllCollections } from '@/api/collections';
@@ -28,7 +27,7 @@ export default function CollectionSelectorDialog({ recipeId }: CollectionSelecto
         setError(errorMessage);
     };
     const [error, setError] = useState("");
-    const getEmptyPlacholderProps = () => {
+    const getEmptyPlaceholderProps = () => {
         const query = searchParams.search;
         const className = 'w-32 h-32 text-rose-200';
         if (query) {
@@ -78,7 +77,7 @@ export default function CollectionSelectorDialog({ recipeId }: CollectionSelecto
 
                 {collectionsData && !getCollectionsLoading && <>
                     <ScrollArea scrollbars="vertical" style={{ height: 600 }}>
-                        {collectionsData.totalItems < 1 && <EmptyPlaceholder {...getEmptyPlacholderProps()} />
+                        {collectionsData.totalItems < 1 && <EmptyPlaceholder {...getEmptyPlaceholderProps()} />
                         }
 
                         <div className='grid gap-2 grid-cols-1 py-2 mb-4'>

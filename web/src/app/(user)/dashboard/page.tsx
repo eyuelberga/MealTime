@@ -71,7 +71,7 @@ export default async function Dashboard() {
                     <div className="shrink-0 self-end ml-2">
                       <Button variant='ghost' asChild>
                         <Link href="/collections">View All <ArrowRightIcon className='w-4 h-4' /></Link>
-                        </Button>
+                      </Button>
                     </div>
                   </>
                 </ListHeader>
@@ -83,7 +83,7 @@ export default async function Dashboard() {
                     </Button>
                   </ListItem>))
                   :
-                  <EmptyPlaceholder image={<CollectionIcon className="w-32 h-32 text-rose-200" />} title="No Collections!" cta='Create Collection' href="/collections/create" />
+                  <EmptyPlaceholder image={<CollectionIcon className="w-32 h-32 text-rose-200" />} title="No collections created!" subtitle='You can organize your recipes using collections. Create one to get started!' cta='Create Collection' href="/collections/create" />
                 }
 
               </List>
@@ -96,7 +96,7 @@ export default async function Dashboard() {
             <CardHeader title="Recently Added Recipes">
               <Button asChild variant='ghost'>
                 <Link href="/recipes">View All <ArrowRightIcon className='w-4 h-4' /></Link>
-                </Button>
+              </Button>
             </CardHeader>
             <CardBody padding='sm'>
 

@@ -24,7 +24,7 @@ export default function CollectionActions({ id }: CollectionActionsProps) {
     const { loading: deleteLoading, request: deleteRequest } = useAsync(onRemove, { onComplete, onError });
     return <DropdownMenu.Root>
         <DropdownMenu.Trigger>
-            <IconButton value="options" variant="outline" size="3">
+            <IconButton value="options" variant="soft" size="3">
                 <EllipsisVerticalIcon />
             </IconButton>
         </DropdownMenu.Trigger>

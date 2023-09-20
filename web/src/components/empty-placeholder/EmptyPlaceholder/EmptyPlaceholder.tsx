@@ -12,7 +12,7 @@ export interface EmptyPlaceholderProps {
 
 export function EmptyPlaceholder({ title, subtitle, href, cta, image }: EmptyPlaceholderProps) {
     return <CardBody>
-        <div className="items-center flex justify-center flex-col md:flex-row md:gap-28 gap-16">
+        <div className="items-center flex justify-center flex-col md:flex-row gap-6 flex-wrap">
             <div>
                 {image}
             </div>
