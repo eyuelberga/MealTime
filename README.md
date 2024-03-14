@@ -47,6 +47,12 @@ Meal Time aims to help you easily plan, organize, and execute your meals. Our go
 - Organize your recipes in collections for easy retrieval.
 - Monitor and analyze your dietary choices.
 
+### Demo Video
+
+<div align="center">
+  <a href="https://www.youtube.com/watch?v=cpqgIqZget4"><img src="https://img.youtube.com/vi/cpqgIqZget4/0.jpg" alt="MealTime Demo"></a>
+</div>
+
 
 ## Features
 
